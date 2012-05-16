@@ -10,7 +10,7 @@ if (typeof module === "object" && typeof require === "function") {
 }
 
 buster.util.testCase("EmitterCreateTest", {
-    "should create event emitter": function () {
+    "creates event emitter": function () {
         var emitter = buster.eventEmitter.create();
 
         assert.ok(buster.eventEmitter.isPrototypeOf(emitter));
@@ -18,7 +18,7 @@ buster.util.testCase("EmitterCreateTest", {
 });
 
 buster.util.testCase("EmitterAddListenerTest", {
-    "should store functions": function () {
+    "stores functions": function () {
         var emitter = buster.create(buster.eventEmitter);
         var listeners = [sinon.spy(), sinon.spy()];
 
@@ -29,7 +29,7 @@ buster.util.testCase("EmitterAddListenerTest", {
         assert.ok(emitter.hasListener("event", listeners[1]));
     },
 
-    "should throw for uncallable listener": function () {
+    "throws for uncallable listener": function () {
         var emitter = buster.create(buster.eventEmitter);
 
         assert.throws(function () {
@@ -37,7 +37,7 @@ buster.util.testCase("EmitterAddListenerTest", {
         }, "TypeError");
     },
 
-    "should store functions with this context": function () {
+    "stores functions with this context": function () {
         var emitter = buster.create(buster.eventEmitter);
         var listener = sinon.spy();
         var obj = {};
@@ -50,13 +50,13 @@ buster.util.testCase("EmitterAddListenerTest", {
 });
 
 buster.util.testCase("EmitterHasListenerTest", {
-    "should return false when no listeners": function () {
+    "returns false when no listeners": function () {
         var emitter = buster.create(buster.eventEmitter);
 
         assert.ok(!emitter.hasListener(function () {}));
     },
 
-    "should compare this objects strictly": function () {
+    "compares this objects strictly": function () {
         var emitter = buster.create(buster.eventEmitter);
         var listener = sinon.spy();
         var obj = {};
@@ -66,7 +66,7 @@ buster.util.testCase("EmitterHasListenerTest", {
         assert.ok(!emitter.hasListener("event", listener, {}));
     },
 
-    "should find listener without this object": function () {
+    "finds listener without this object": function () {
         var emitter = buster.create(buster.eventEmitter);
         var listener = sinon.spy();
 
@@ -95,7 +95,7 @@ buster.util.testCase("EmitterHasListenerTest", {
 });
 
 buster.util.testCase("EmitterEmitTest", {
-    "should call all listeners": function () {
+    "calls all listeners": function () {
         var emitter = buster.create(buster.eventEmitter);
         var listeners = [sinon.spy(), sinon.spy()];
         emitter.addListener("event", listeners[0]);
@@ -107,7 +107,7 @@ buster.util.testCase("EmitterEmitTest", {
         assert.ok(listeners[1].called);
     },
 
-    "should call all listeners with correct this object": function () {
+    "calls all listeners with correct this object": function () {
         var emitter = buster.create(buster.eventEmitter);
         var listeners = [sinon.spy(), sinon.spy()];
         var obj = {};
@@ -120,7 +120,7 @@ buster.util.testCase("EmitterEmitTest", {
         assert.ok(listeners[1].calledOn(emitter));
     },
 
-    "should call all listeners added with on": function () {
+    "calls all listeners added with on": function () {
         var emitter = buster.create(buster.eventEmitter);
         var listeners = [sinon.spy(), sinon.spy()];
         emitter.on("event", listeners[0]);
@@ -132,7 +132,7 @@ buster.util.testCase("EmitterEmitTest", {
         assert.ok(listeners[1].called);
     },
 
-    "should pass through arguments": function () {
+    "passes through arguments": function () {
         var emitter = buster.create(buster.eventEmitter);
         var listener = sinon.spy();
 
@@ -142,7 +142,7 @@ buster.util.testCase("EmitterEmitTest", {
         assert.ok(listener.calledWith("String", 1, 32));
     },
 
-    "should emit all even when some fail": function () {
+    "emits all even when some fail": function () {
         var emitter = buster.create(buster.eventEmitter);
         var listeners = [sinon.stub().throws("I'm thrown on purpose"), sinon.spy()];
 
@@ -154,7 +154,7 @@ buster.util.testCase("EmitterEmitTest", {
         assert.ok(listeners[1].called);
     },
 
-    "should call listeners in the order they were added": function () {
+    "calls listeners in the order they were added": function () {
         var emitter = buster.create(buster.eventEmitter);
         var listeners = [sinon.spy(), sinon.spy()];
 
@@ -166,16 +166,15 @@ buster.util.testCase("EmitterEmitTest", {
         assert.ok(listeners[0].calledBefore(listeners[1]));
     },
 
-    "should not fail if no listeners": function () {
+    "does not fail if no listeners": function () {
         var emitter = buster.create(buster.eventEmitter);
-        var emitter = emitter;
 
         assert.doesNotThrow(function () {
             emitter.emit("event");
         });
     },
 
-    "should emit relevant listeners only": function () {
+    "only notifies relevant listeners": function () {
         var emitter = buster.create(buster.eventEmitter);
         var listeners = [sinon.spy(), sinon.spy()];
 
@@ -190,14 +189,14 @@ buster.util.testCase("EmitterEmitTest", {
 });
 
 buster.util.testCase("EventEmitterBindTest", {
-    "should return object bound to": function () {
+    "returns object bound to": function () {
         var listener = { doIt: function () {} };
         var result = buster.create(buster.eventEmitter).bind(listener, "doIt");
 
         assert.equal(result, listener);
     },
 
-    "should bind to method named after event": function () {
+    "binds to method named after event": function () {
         var emitter = buster.create(buster.eventEmitter);
         var listener = { doIt: function() {} };
 
@@ -206,7 +205,7 @@ buster.util.testCase("EventEmitterBindTest", {
         assert.ok(emitter.hasListener("doIt", listener.doIt, listener));
     },
 
-    "should bind all methods as event listeners to correspondingly named event": function () {
+    "binds all methods as event listeners to correspondingly named event": function () {
         var emitter = buster.create(buster.eventEmitter);
         var listener = { complete: function() {},
                          failure: function () {},
@@ -219,7 +218,7 @@ buster.util.testCase("EventEmitterBindTest", {
         assert.ok(emitter.hasListener("success", listener.success, listener));
     },
 
-    "should not bind non-function properties": function () {
+    "does not bind non-function properties": function () {
         var emitter = buster.create(buster.eventEmitter);
         var listener = { id: 42, failure: function () {} };
 
@@ -229,7 +228,7 @@ buster.util.testCase("EventEmitterBindTest", {
         assert.ok(emitter.hasListener("failure", listener.failure, listener));
     },
 
-    "should not bind inherited methods": function () {
+    "does not bind inherited methods": function () {
         var emitter = buster.create(buster.eventEmitter);
         var proto = { something: function () {} };
         var listener = buster.create(proto);
@@ -241,7 +240,7 @@ buster.util.testCase("EventEmitterBindTest", {
         assert.ok(emitter.hasListener("failure", listener.failure, listener));
     },
 
-    "should map event names to method names": function () {
+    "maps event names to method names": function () {
         var emitter = buster.create(buster.eventEmitter);
         var listener = { one: function () {}, two: function () {} };
 
@@ -251,7 +250,7 @@ buster.util.testCase("EventEmitterBindTest", {
         assert.ok(emitter.hasListener("event2", listener.two, listener));
     },
 
-    "should throw when mapping events to non-existing methods": function () {
+    "throws when mapping events to non-existing methods": function () {
         var emitter = buster.create(buster.eventEmitter);
         var listener = { one: function () {}, two: function () {} };
 
@@ -260,7 +259,7 @@ buster.util.testCase("EventEmitterBindTest", {
         });
     },
 
-    "should bind array of methods/events": function () {
+    "binds array of methods/events": function () {
         var emitter = buster.create(buster.eventEmitter);
         var listener = { one: function () {},
                          two: function () {},
@@ -273,7 +272,7 @@ buster.util.testCase("EventEmitterBindTest", {
         assert.ok(emitter.hasListener("three", listener.three, listener));
     },
 
-    "should fail array when binding non-existent method": function () {
+    "fails array when binding non-existent method": function () {
         var emitter = buster.create(buster.eventEmitter);
         var listener = {};
 
@@ -282,7 +281,7 @@ buster.util.testCase("EventEmitterBindTest", {
         });
     },
 
-    "should fail array when binding non-existent method in array": function () {
+    "fails array when binding non-existent method in array": function () {
         var emitter = buster.create(buster.eventEmitter);
         var listener = { one: function () {} };
 
@@ -291,7 +290,7 @@ buster.util.testCase("EventEmitterBindTest", {
         });
     },
 
-    "should add function as method and bind it to event": function () {
+    "adds function as method and bind it to event": function () {
         var method = function () {};
         var listener = {};
         var emitter = buster.create(buster.eventEmitter);
@@ -302,7 +301,7 @@ buster.util.testCase("EventEmitterBindTest", {
         assert.ok(emitter.hasListener("someEvent", listener.someEvent, listener));
     },
 
-    "should use function names for property names if present": function () {
+    "uses function names for property names if present": function () {
         function myHandler() {};
         var listener = {};
         var emitter = buster.create(buster.eventEmitter);
@@ -314,8 +313,22 @@ buster.util.testCase("EventEmitterBindTest", {
     }
 });
 
+buster.util.testCase("EmitterBindAllTest", {
+    "is notified of all events": function () {
+        var listener = sinon.spy();
+        var emitter = buster.eventEmitter.create();
+
+        emitter.on(listener);
+        emitter.emit("something", 42);
+        emitter.emit("stuff", { id: 13 });
+
+        assert.ok(listener.calledTwice);
+        assert.ok(listener.calledWith("something", 42));
+    }
+});
+
 buster.util.testCase("EmitterRemoveListenerTest", {
-    "should remove listener": function () {
+    "removes listener": function () {
         var listener = sinon.spy();
         var emitter = buster.create(buster.eventEmitter);
 
@@ -350,7 +363,7 @@ buster.util.testCase("EmitterRemoveListenerTest", {
 });
 
 buster.util.testCase("EmitterOnceTest", {
-    "should only get called once": function () {
+    "is only called once": function () {
         var listener = sinon.spy();
         var emitter = buster.create(buster.eventEmitter);
 
@@ -362,7 +375,7 @@ buster.util.testCase("EmitterOnceTest", {
         assert.ok(listener.calledOnce);
     },
 
-    "should get called with emitted arguments": function () {
+    "is called with emitted arguments": function () {
         var listener = sinon.spy();
         var emitter = buster.create(buster.eventEmitter);
         emitter.once("event", listener);
@@ -370,7 +383,7 @@ buster.util.testCase("EmitterOnceTest", {
         assert.ok(listener.calledWithExactly("foo", 1));
     },
 
-    "should get called with context": function () {
+    "is called with context": function () {
         var emitter = buster.create(buster.eventEmitter);
         var listener = function () { this.foo = "bar"; };
         var obj = {};
@@ -380,7 +393,7 @@ buster.util.testCase("EmitterOnceTest", {
         assert.equal("bar", obj.foo);
     },
 
-    "should look up with hasListener": function () {
+    "looks up with hasListener": function () {
         var listener = sinon.spy();
         var emitter = buster.create(buster.eventEmitter);
 
