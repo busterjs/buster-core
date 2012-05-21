@@ -530,4 +530,26 @@
             assert.ok(callback.calledOnce);
         }
     });
+
+    if (typeof process === "undefined") { return; }
+
+    var path = require("path");
+
+    if (process.platform != "win32") {
+        bu.testCase("TmpFile", {
+            "returns pathname": function () {
+                var file = "/home/christian/projects/myproject/buster.cache";
+                assert.equal(B.tmpFile(file),
+                             "/tmp/2f4a2c82aed0d4748c03818f69f2a26c8e49bfff");
+            }
+        });
+    } else {
+        bu.testCase("TmpFile", {
+            "returns pathname": function () {
+                var file = "c:\\Foo\\Bar\\buster.cache";
+                assert.equal(B.tmpFile(file),
+                             path.join(process.env["TEMP"], "2c1b809e8e3ae0dae467a80f19bfe712b67593f8"));
+            }
+        });
+    }
 }(typeof buster == "object" ? buster : null, typeof sinon == "object" ? sinon : null));
