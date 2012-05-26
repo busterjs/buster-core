@@ -15,6 +15,9 @@
         "email": "christian@cjohansen.no",
         "url": "http://cjohansen.no"
     }],
+    "scripts": {
+        "test": "./run-tests"
+    },
     "devDependencies": {
         "buster-util": "0.5",
         "sinon": ">=1.3"
