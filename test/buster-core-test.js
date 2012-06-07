@@ -246,6 +246,15 @@
         }
     });
 
+    bu.testCase("BusterFilterTest", {
+        "should filter items": function () {
+            function isBigEnough(element) { return (element >= 10); }
+            var filtered = B.filter([12, 5, 8, 130, 44], isBigEnough);
+
+            assert.deepEqual(filtered, [12, 130, 44]);
+        }
+    });
+
     bu.testCase("BusterParallelTest", {
         setUp: function () {
             this.fns = [sinon.stub(), sinon.stub(), sinon.stub()];
