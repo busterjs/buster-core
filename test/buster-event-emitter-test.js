@@ -359,6 +359,17 @@ buster.util.testCase("EmitterRemoveListenerTest", {
 
         assert.ok(emitter.hasListener("event", listeners[0]));
         assert.ok(emitter.hasListener("event", listeners[2]));
+    },
+
+    "should remove listener in other listener for same event": function () {
+        var emitter = buster.eventEmitter.create();
+        var fooListener = sinon.spy();
+
+        emitter.on("foo", function () {
+            emitter.removeListener("foo", fooListener);
+        });
+        emitter.on("foo", fooListener);
+        emitter.emit("foo");
     }
 });
 
