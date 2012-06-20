@@ -1,6 +1,6 @@
 {
     "name": "buster-core",
-    "version": "0.6.1",
+    "version": "0.6.2",
     "description": "Buster core utilities",
     "homepage": "http://busterjs.org/docs/buster-core",
     "author": {
