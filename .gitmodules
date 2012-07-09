@@ -1,6 +1,6 @@
 [submodule "vendor/buster-util"]
-	path = vendor/buster-util
-	url = https://git.gitorious.org/buster/buster-util.git
+        path = vendor/buster-util
+        url = https://github.com/busterjs/buster-util.git
 [submodule "vendor/sinon"]
-	path = vendor/sinon
-	url = https://github.com/cjohansen/Sinon.JS.git
+        path = vendor/sinon
+        url = https://github.com/cjohansen/Sinon.JS.git
